@@ -3,16 +3,6 @@ output "peering_connection_id" {
   value       = aws_vpc_peering_connection.this.id
 }
 
-output "connection_status" {
-  description = "The status of the VPC peering connection"
-  value       = aws_vpc_peering_connection.this.status
-}
-
-output "accept_status" {
-  description = "The accept status of the VPC peering connection"
-  value       = aws_vpc_peering_connection.this.accept_status
-}
-
 output "peer_vpc_info" {
   description = "Information about the peer VPC"
   value = {

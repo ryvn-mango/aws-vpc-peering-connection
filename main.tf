@@ -19,10 +19,9 @@ resource "aws_vpc_peering_connection" "this" {
 }
 
 # VPC Peering Connection Options (Requester Side)
-# These options can only be set after the connection is accepted by the third party
+# Note: This will be applied once the connection is accepted by the third party
+# May need to re-run terraform apply after the third party accepts the connection
 resource "aws_vpc_peering_connection_options" "requester" {
-  count = aws_vpc_peering_connection.this.status == "active" ? 1 : 0
-
   vpc_peering_connection_id = aws_vpc_peering_connection.this.id
 
   requester {
