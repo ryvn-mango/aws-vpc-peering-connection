@@ -1,3 +1,8 @@
+# Data source to get all route tables for the VPC
+data "aws_route_tables" "vpc" {
+  vpc_id = var.vpc_id
+}
+
 # VPC Peering Connection Request to Third-Party VPC
 resource "aws_vpc_peering_connection" "this" {
   vpc_id        = var.vpc_id
@@ -29,7 +34,7 @@ resource "aws_vpc_peering_connection_options" "requester" {
 # Routes are created immediately but only become functional once the third party accepts the connection
 resource "aws_route" "peer" {
   for_each = {
-    for pair in setproduct(var.route_table_ids, var.peer_cidr_blocks) :
+    for pair in setproduct(data.aws_route_tables.vpc.ids, var.peer_cidr_blocks) :
     "${pair[0]}-${replace(pair[1], "/[^a-zA-Z0-9]/", "-")}" => {
       route_table_id = pair[0]
       cidr_block     = pair[1]

@@ -8,12 +8,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "route_table_ids" {
-  description = "List of route table IDs where routes to the peer VPC will be created"
-  type        = list(string)
-  default     = []
-}
-
 variable "peer_vpc_id" {
   description = "The ID of the third-party VPC (accepter) to peer with"
   type        = string

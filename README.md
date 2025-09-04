@@ -12,9 +12,8 @@ This module creates VPC peering connection requests to third-party VPCs and mana
 module "third_party_peering" {
   source = "./aws-vpc-peering-connection"
   
-  name_prefix     = "vendor"
-  vpc_id          = "vpc-12345678"
-  route_table_ids = ["rtb-aaaaa", "rtb-bbbbb"]
+  name_prefix = "vendor"
+  vpc_id      = "vpc-12345678"  # Routes will be added to all route tables in this VPC
   
   # These values are provided by the third party
   peer_vpc_id      = "vpc-87654321"
@@ -43,8 +42,7 @@ module "third_party_peering" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|----------|
 | `name_prefix` | Prefix for resource names | `string` | - | yes |
-| `vpc_id` | Your VPC ID (requester) | `string` | - | yes |
-| `route_table_ids` | Route table IDs to update | `list(string)` | `[]` | no |
+| `vpc_id` | Your VPC ID (routes will be added to all route tables in this VPC) | `string` | - | yes |
 | `peer_vpc_id` | Third-party VPC ID | `string` | - | yes |
 | `peer_owner_id` | Third-party AWS account ID | `string` | - | yes |
 | `peer_region` | Third-party VPC region | `string` | - | yes |
@@ -80,6 +78,7 @@ When setting up VPC peering with a third-party service:
 ## Notes
 
 - This module is designed for **cross-account** peering only
+- Routes are automatically added to **all route tables** in the VPC
 - Routes are created immediately but only function after acceptance
 - DNS resolution can be enabled for private hostname resolution
 - The module creates routes for all combinations of route tables and CIDR blocks
